@@ -1,0 +1,20 @@
+{
+  "name": "HIQ",
+  "description": "Google Actions HIQ for Node.js",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "ACG",
+  "scripts": {
+    "start": "node app.js",
+    "monitor": "nodemon app.js",
+    "deploy": "gcloud app deploy"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.13.4",
+    "sprintf-js": "^1.0.3",
+    "actions-on-google": "~1.0.0",
+    "nodemon":"~1.11.0"
+  }
+}
