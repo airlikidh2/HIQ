@@ -40,7 +40,7 @@ app.post('/', function (request, response) {
   }
 
   function giveAnswer (assistant, answer) {
-    console.log('Give Answer');
+    console.log('ENTER INTO GIVEANSWER FUNCTION');
     var myAnswer = assistant.getArgument('Answers');
     var nextquestion = questionnumber+1;
     console.log('Myanswer:' + myAnswer);
@@ -72,29 +72,41 @@ app.post('/', function (request, response) {
       }
     track++;
     questionnumber++;
-    console.log("TRACK Giveanswer:" + track);
+    console.log("ENDOFGIVEANSWERFUNCTION TRACK#:" + track);
     console.log("QUESTIONUMBER Giveanswer:" + questionnumber);
 
   }
 
 function holdon(assistant) {
-  assistant setContext("holdon");
-  assistant.ask("Ok. Do you want to continue the quizz, take a break, or stop playing?");
-}
+  if (track%2 == 0) {
+    console.log("PAIR");
+    assistant.setContext("holdon");
+    assistant.ask("Ok. Do you want to continue the quizz, take a break, or stop playing?");
+
+  } else {
+  console.log("IMPAIR");
+  track = track -2;
+  console.log("QUESTIONUMBERREBOOT:" + questionnumber);
+  askQuestion(assistant,content[0][questionnumber-1]);
+  }
+
+  }
 
 function pause(assistant) {
-  assistant setContext("holdon");
-  assistant.tell("Sounds good. I'll wait for you here. Just let me know when you are ready to continue the quizz?");
+  console.log("PAUSE");
+  assistant.ask("Sounds good. I'll wait for you here. Just let me know when you are ready to continue the quizz?");
 }
 
 function resume(assistant) {
-  assistant setContext("holdon");
-  assistant.ask("Ok. Do you want to take a break or stop the quizz?");
+  console.log("RESUME");
+  console.log("QUESTIONUMBERRESUMEAFTER-1:" + questionnumber);
+  askQuestion(assistant, content[0][questionnumber-1]);
 }
 
 function exit(assistant) {
   assistant.tell("Ok. Come back any time if you want to practice and learn cool things!");
 }
+
 
   function router(assistant) {
     switch (track) {
@@ -139,9 +151,10 @@ function exit(assistant) {
   actionMap.set("GenAnswer", router);
   actionMap.set("Positive", router);
   actionMap.set("Negative", holdon);
+  actionMap.set("Clueless", router);
   actionMap.set("Pause", pause);
   actionMap.set("Resume", resume);
-  actionMap.set("quit", quit);
+  actionMap.set("Exit", exit);
   // actionMap.set(CHECK_GUESS_ACTION, checkGuess);
   assistant.handleRequest(actionMap);
 
